@@ -21,6 +21,7 @@ class TodoCard extends StatefulWidget {
 class _TodoCardState extends State<TodoCard> {
   int toDone = 0;
   TextDecoration textDeco = TextDecoration.none;
+  bool value = false;
 
   doneButton() {
     setState(() {
@@ -62,9 +63,73 @@ class _TodoCardState extends State<TodoCard> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.itemTodo,
-                style: TextStyle(decoration: textDeco),
+              Flexible(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.itemTodo,
+                        style: TextStyle(
+                            decoration: textDeco,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      Text(
+                        "Description Description Description Description Description Description Description",
+                        //widget.descItem,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.black54,
+                          decoration: textDeco,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
+                      ),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.person,
+                                color: Colors.purple[800],
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.01,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.3,
+                                child: Text(
+                                  "Samuel Jackson FFFFFFF",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    decoration: textDeco,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          Text(
+                            "29/9/2023",
+                            style: TextStyle(
+                              color: Colors.red,
+                              decoration: textDeco,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               ),
               Container(
                 child: Row(
@@ -74,14 +139,14 @@ class _TodoCardState extends State<TodoCard> {
                         doneButton();
                         print(toDone);
                       },
-                      icon: Icon(Icons.done_outline_rounded),
+                      icon: Icon(Icons.done_rounded),
                       color: Colors.black,
                     ),
-                    IconButton(
-                      onPressed: widget.delete,
-                      icon: Icon(Icons.delete_outline_rounded),
-                      color: Colors.red,
-                    ),
+                    // IconButton(
+                    //   onPressed: widget.delete,
+                    //   icon: Icon(Icons.delete_outline_rounded),
+                    //   color: Colors.red,
+                    // ),
                   ],
                 ),
               ),

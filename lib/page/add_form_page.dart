@@ -125,7 +125,7 @@ class _AddFormPageState extends State<AddFormPage> {
                 this.itemTodo = value;
               })
             },
-          )
+          ),
         ],
       ),
     );
