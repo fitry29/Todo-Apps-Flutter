@@ -47,7 +47,7 @@ class _TodoCardState extends State<TodoCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onLongPress: widget.onTap,
       child: Container(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.02,
@@ -69,72 +69,78 @@ class _TodoCardState extends State<TodoCard> {
               ),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        capitalize(widget.itemTodo),
-                        style: TextStyle(
+          child: IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          capitalize(widget.itemTodo),
+                          style: TextStyle(
+                              decoration: textDeco,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.008,
+                        ),
+                        Text(
+                          //"Description Description Description Description Description Description Description",
+                          capitalize(widget.desc),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.black54,
                             decoration: textDeco,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
-                      Text(
-                        //"Description Description Description Description Description Description Description",
-                        capitalize(widget.desc),
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.black54,
-                          decoration: textDeco,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.005,
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            buildPersonName(),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.04,
-                            ),
-                            buildDate(),
-                          ],
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.008,
                         ),
-                      )
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              buildPersonName(),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.04,
+                              ),
+                              buildDate(),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                VerticalDivider(
+                  color: Colors.black38,
+                  thickness: 1,
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          doneButton();
+                          print(toDone);
+                        },
+                        icon: Icon(Icons.done_rounded),
+                        color: Colors.black,
+                      ),
+                      // IconButton(
+                      //   onPressed: widget.delete,
+                      //   icon: Icon(Icons.delete_outline_rounded),
+                      //   color: Colors.red,
+                      // ),
                     ],
                   ),
                 ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        doneButton();
-                        print(toDone);
-                      },
-                      icon: Icon(Icons.done_rounded),
-                      color: Colors.black,
-                    ),
-                    // IconButton(
-                    //   onPressed: widget.delete,
-                    //   icon: Icon(Icons.delete_outline_rounded),
-                    //   color: Colors.red,
-                    // ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

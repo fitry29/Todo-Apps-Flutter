@@ -117,6 +117,7 @@ class _HomepageState extends State<Homepage> {
           onTap: () async {
             print(todo.todoItem + ", ${todo.toDone}, ${todo.todoId}");
             print(todo.toJson());
+            _showAlertDialog(todo);
           },
           delete: () async {
             print(todo.todoItem + ", ${todo.toDone}, ${todo.todoId}");
@@ -126,6 +127,44 @@ class _HomepageState extends State<Homepage> {
           name: todo.name,
           desc: todo.desc,
           dueDate: date,
+        );
+      },
+    );
+  }
+
+  Future<void> _showAlertDialog(Todo todo) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          // <-- SEE HERE
+          title: const Text('Delete Todo?'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure want to delete this task?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () async {
+                await TodoDatabse.instance.delete(todo.todoId!);
+                refreshTodo();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
