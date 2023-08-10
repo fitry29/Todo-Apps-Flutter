@@ -19,6 +19,8 @@ class AddFormPage extends StatefulWidget {
 class _AddFormPageState extends State<AddFormPage> {
   final _formKey = GlobalKey<FormState>();
   late String itemTodo;
+  late String desc;
+  late String name;
   late int toDone;
 
   @override
@@ -27,6 +29,23 @@ class _AddFormPageState extends State<AddFormPage> {
 
     itemTodo = widget.todo?.todoItem ?? '';
     toDone = widget.todo?.toDone ?? 0;
+    name = widget.todo?.name ?? '';
+    desc = widget.todo?.desc ?? '';
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   @override
@@ -78,17 +97,17 @@ class _AddFormPageState extends State<AddFormPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: InputLabelText(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                text: "What Todo Today?",
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.005,
-            ),
+            // Center(
+            //   child: InputLabelText(
+            //     padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            //     text: "What Todo Today?",
+            //     fontSize: 20,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 0.005,
+            // ),
             Form(
               key: _formKey,
               child: formField(),
@@ -108,24 +127,51 @@ class _AddFormPageState extends State<AddFormPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          InputLabelText(
+            padding: EdgeInsets.all(5),
+            text: "Task Name",
+            fontSize: 16,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.005,
+          ),
+          buildTaskName(),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
-          FormWidget(
-            onTap: () {
-              print(itemTodo);
-            },
+          InputLabelText(
+            padding: EdgeInsets.all(5),
+            text: "Description",
             fontSize: 16,
-            hintText: "Shopping, study, workout etc..",
-            initValue: itemTodo,
-            validator: (value) =>
-                value != null && value.isEmpty ? "Cannot be empty" : null,
-            onChanged: (value) => {
-              setState(() {
-                this.itemTodo = value;
-              })
-            },
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.005,
+          ),
+          buildDesc(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          InputLabelText(
+            padding: EdgeInsets.all(5),
+            text: "Assign To",
+            fontSize: 16,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.005,
+          ),
+          buildTaskOwner(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
+          InputLabelText(
+            padding: EdgeInsets.all(5),
+            text: "Due Date",
+            fontSize: 16,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.005,
+          ),
+          buildDatePicker(),
         ],
       ),
     );
@@ -153,10 +199,84 @@ class _AddFormPageState extends State<AddFormPage> {
     );
   }
 
+  Widget buildTaskName() {
+    return FormWidget(
+      onTap: () {
+        print(itemTodo);
+      },
+      fontSize: 16,
+      hintText: "Shopping, study, workout etc..",
+      initValue: itemTodo,
+      validator: (value) =>
+          value != null && value.isEmpty ? "Cannot be empty" : null,
+      onChanged: (value) => {
+        setState(() {
+          this.itemTodo = value;
+        })
+      },
+    );
+  }
+
+  Widget buildDesc() {
+    return FormWidget(
+      maxline: 4,
+      contentPadding: EdgeInsets.all(15),
+      onTap: () {
+        print(desc);
+      },
+      fontSize: 16,
+      hintText: "Explain something here...",
+      initValue: desc,
+      validator: (value) =>
+          value != null && value.isEmpty ? "Cannot be empty" : null,
+      onChanged: (value) => {
+        setState(() {
+          this.desc = value;
+        })
+      },
+    );
+  }
+
+  Widget buildTaskOwner() {
+    return FormWidget(
+      maxline: 1,
+      onTap: () {
+        print(name);
+      },
+      fontSize: 16,
+      hintText: "Yousuf",
+      initValue: name,
+      validator: (value) =>
+          value != null && value.isEmpty ? "Cannot be empty" : null,
+      onChanged: (value) => {
+        setState(() {
+          this.name = value;
+        })
+      },
+    );
+  }
+
+  Widget buildDatePicker() {
+    return ElevatedButtonWidget(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height * 0.045,
+      radius: 15,
+      text: "${selectedDate.toLocal()}".split(' ')[0],
+      buttonColor: Colors.grey.shade200,
+      onPressed: () {
+        _selectDate(context);
+      },
+    );
+  }
+
   Future addTodo() async {
     final todo = Todo(
       todoItem: itemTodo,
       toDone: 0,
+      desc: desc,
+      name: name,
+      createdDate: DateTime.now(),
+      dueDate: selectedDate,
     );
     await TodoDatabse.instance.create(todo);
   }

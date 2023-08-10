@@ -12,6 +12,8 @@ class FormWidget extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final FontWeight fontWeight;
+  final int maxline;
+  final EdgeInsetsGeometry contentPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +22,36 @@ class FormWidget extends StatelessWidget {
       child: Container(
         child: TextFormField(
           controller: controller,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.next,
           keyboardType: keyboardType,
           onEditingComplete: onEditingComplete,
           onTap: onTap,
-          maxLines: 1,
+          maxLines: maxline,
           initialValue: initValue,
           style: TextStyle(
               fontSize: fontSize, fontWeight: fontWeight, color: Colors.black),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            contentPadding: contentPadding,
             fillColor: Colors.grey[200],
             filled: true,
             labelText: labelText,
             border: OutlineInputBorder(),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(color: Colors.red, width: 1),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(color: Colors.red, width: 1),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(color: Colors.transparent, width: 0.0),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide(color: Colors.transparent, width: 0.0),
             ),
             hintText: hintText,
@@ -74,5 +76,8 @@ class FormWidget extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.fontWeight = FontWeight.normal,
+    this.maxline = 1,
+    this.contentPadding =
+        const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
   }) : super(key: key);
 }

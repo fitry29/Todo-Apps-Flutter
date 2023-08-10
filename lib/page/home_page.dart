@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todoapps/db/todo_db.dart';
+import 'package:intl/intl.dart';
 import 'package:todoapps/model/todo.dart';
 import 'package:todoapps/page/add_form_page.dart';
-import 'package:todoapps/widget/elevated_button_widget.dart';
 import 'package:todoapps/widget/todo_card.dart';
 
 class Homepage extends StatefulWidget {
@@ -109,6 +109,9 @@ class _HomepageState extends State<Homepage> {
       itemBuilder: (context, index) {
         final todo = todos[index];
 
+        var formatter = DateFormat('EEEE, d MMM yyyy');
+        String date = formatter.format(todo.dueDate);
+
         return TodoCard(
           itemTodo: todo.todoItem,
           onTap: () async {
@@ -120,6 +123,9 @@ class _HomepageState extends State<Homepage> {
             await TodoDatabse.instance.delete(todo.todoId!);
             refreshTodo();
           },
+          name: todo.name,
+          desc: todo.desc,
+          dueDate: date,
         );
       },
     );

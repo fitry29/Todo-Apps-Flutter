@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class TodoCard extends StatefulWidget {
   final String itemTodo;
+  final String desc;
+  final String name;
+  final String dueDate;
   final void Function()? onTap;
   final void Function()? delete;
   final void Function()? update;
@@ -15,6 +18,9 @@ class TodoCard extends StatefulWidget {
     this.onTap,
     this.delete,
     this.update,
+    required this.desc,
+    required this.name,
+    required this.dueDate,
   }) : super(key: key);
 }
 
@@ -34,6 +40,9 @@ class _TodoCardState extends State<TodoCard> {
       }
     });
   }
+
+  String capitalize(String s) =>
+      s[0].toUpperCase() + s.substring(1).toLowerCase();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +78,7 @@ class _TodoCardState extends State<TodoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.itemTodo,
+                        capitalize(widget.itemTodo),
                         style: TextStyle(
                             decoration: textDeco,
                             fontWeight: FontWeight.bold,
@@ -79,8 +88,8 @@ class _TodoCardState extends State<TodoCard> {
                         height: MediaQuery.of(context).size.height * 0.005,
                       ),
                       Text(
-                        "Description Description Description Description Description Description Description",
-                        //widget.descItem,
+                        //"Description Description Description Description Description Description Description",
+                        capitalize(widget.desc),
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: Colors.black54,
@@ -90,42 +99,17 @@ class _TodoCardState extends State<TodoCard> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.005,
                       ),
-                      Row(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.person,
-                                color: Colors.purple[800],
-                                size: 18,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.01,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.3,
-                                child: Text(
-                                  "Samuel Jackson FFFFFFF",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    decoration: textDeco,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          Text(
-                            "29/9/2023",
-                            style: TextStyle(
-                              color: Colors.red,
-                              decoration: textDeco,
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            buildPersonName(),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.04,
                             ),
-                          ),
-                        ],
+                            buildDate(),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -152,6 +136,45 @@ class _TodoCardState extends State<TodoCard> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildPersonName() {
+    return Container(
+      child: Row(
+        children: [
+          Icon(
+            Icons.person,
+            color: Colors.purple[800],
+            size: 18,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.01,
+          ),
+          Text(
+            //"Samuel Jackson FFFFFFF",
+            capitalize(widget.name),
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Colors.black54,
+              decoration: textDeco,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDate() {
+    return Container(
+      child: Text(
+        widget.dueDate,
+        //"29/9/2023",
+        style: TextStyle(
+          color: Colors.red,
+          decoration: textDeco,
         ),
       ),
     );

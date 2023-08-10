@@ -31,7 +31,11 @@ class TodoDatabse {
 CREATE TABLE $tableTodo(
   ${TodoField.todoId} $idType,
   ${TodoField.todoItem} $textType,
-  ${TodoField.toDone} INTEGER
+  ${TodoField.toDone} INTEGER,
+  ${TodoField.name} $textType,
+  ${TodoField.desc} $textType,
+  ${TodoField.dueDate} $textType,
+  ${TodoField.createdDate} $textType
 ) 
  ''');
   }
