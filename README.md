@@ -1,6 +1,6 @@
-# todoapps
-
-A new Flutter project.
+# Todo Applications
+- Simple todo application that can Create, Read, Update and Delete.
+- Using Sqlite database to store data in local devices storage.
 
 ## Getting Started
 
